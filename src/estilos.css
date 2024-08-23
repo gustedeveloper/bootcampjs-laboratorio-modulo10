@@ -50,8 +50,11 @@ button:hover {
 .main {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 30px;
+  max-width: 1280px;
   height: 100vh;
+  margin: 0 auto;
   overflow-y: scroll;
   position: relative;
 }
@@ -88,4 +91,39 @@ button[type="submit"] {
   padding: 9px;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.listado-personajes {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, auto);
+}
+
+.personaje-contenedor {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  height: 450px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.contenedor-info {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem 0 1rem;
+  font-size: 1rem;
+}
+
+.contenedor-info > p {
+  margin: 1rem;
+}
+
+.personaje-contenedor > img {
+  height: 40%;
 }

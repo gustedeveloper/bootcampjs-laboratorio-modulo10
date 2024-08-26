@@ -1,8 +1,8 @@
 # Bootcamp JavaScript 2 - Lemoncode
 
-## Laboratorio Módulo 8.2 - Array methods
+## Laboratorio Módulo 10 - Asincronía
 
-Este ejercicio es parte del Bootcamp de JavaScript de Lemoncode y representa la novena entrega correspondiente al Módulo 8.2 de Array Methods.
+Este ejercicio es parte del Bootcamp de JavaScript de Lemoncode y representa la decimocuarta entrega correspondiente al Módulo 10 de Asincronía.
 
 ## Autor
 

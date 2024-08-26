@@ -1,10 +1,12 @@
 import { obtenerPersonajes } from "./listado-personajes-api";
 import { Personaje } from "./listado-personajes.model";
 
+let personajes: Personaje[] = [];
+let personajesFiltrados: Personaje[] = [];
+
 const crearContenedorPersonaje = (personaje: Personaje): HTMLDivElement => {
   const elementoPersonaje = document.createElement("div");
   elementoPersonaje.classList.add("personaje-contenedor");
-
   elementoPersonaje.innerHTML = `
   <img src="http://localhost:3000/${personaje.imagen}" alt="${personaje.nombre}">
   <div class="contenedor-info">
@@ -17,8 +19,7 @@ const crearContenedorPersonaje = (personaje: Personaje): HTMLDivElement => {
   return elementoPersonaje;
 };
 
-const mostrarPersonajes = async (): Promise<void> => {
-  const personajes = await obtenerPersonajes();
+const mostrarPersonajes = (personajes: Personaje[]): void => {
   const listado = document.querySelector("#listado-personajes");
   if (listado && listado instanceof HTMLDivElement) {
     personajes.forEach((personaje) => {
@@ -30,33 +31,36 @@ const mostrarPersonajes = async (): Promise<void> => {
   }
 };
 
-document.addEventListener("DOMContentLoaded", mostrarPersonajes);
+document.addEventListener("DOMContentLoaded", async () => {
+  personajes = await obtenerPersonajes();
+  mostrarPersonajes(personajes);
+});
 
-const filtrarPersonajes = async (): Promise<void> => {
-  const personajes: Personaje[] = await obtenerPersonajes();
-  const listado = document.querySelector("#listado-personajes");
+const filtrarPersonajes = (personajes: Personaje[]): void => {
+  personajesFiltrados = [];
+  borrarContenedoresPersonajes();
   let textoInput = "";
   const inputFiltrar = document.getElementById("filtrar");
   if (inputFiltrar && inputFiltrar instanceof HTMLInputElement) {
     textoInput = inputFiltrar.value;
   }
+  personajesFiltrados = personajes.filter((personaje) =>
+    personaje.nombre.toLocaleLowerCase().includes(textoInput)
+  );
+  mostrarPersonajes(personajesFiltrados);
+};
 
-  for (const personaje of personajes) {
-    if (personaje.nombre.toLowerCase().includes(textoInput)) {
-      if (listado && listado instanceof HTMLDivElement) {
-        const contenedorPersonaje = crearContenedorPersonaje(personaje);
-        listado.appendChild(contenedorPersonaje);
-        console.log(personaje);
-        break;
-      }
-    } else {
-      console.log("No encontrado");
-    }
-  }
+const borrarContenedoresPersonajes = () => {
+  const elementosPersonajes = document.querySelectorAll(
+    ".personaje-contenedor"
+  );
+  elementosPersonajes.forEach((elemento) => elemento.remove());
 };
 
 const botonFiltrar = document.querySelector(".filtrar");
 
 if (botonFiltrar && botonFiltrar instanceof HTMLButtonElement) {
-  botonFiltrar.addEventListener("click", filtrarPersonajes);
+  botonFiltrar.addEventListener("click", () => {
+    filtrarPersonajes(personajes);
+  });
 }

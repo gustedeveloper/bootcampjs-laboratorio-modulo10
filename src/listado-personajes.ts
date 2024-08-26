@@ -31,3 +31,32 @@ const mostrarPersonajes = async (): Promise<void> => {
 };
 
 document.addEventListener("DOMContentLoaded", mostrarPersonajes);
+
+const filtrarPersonajes = async (): Promise<void> => {
+  const personajes: Personaje[] = await obtenerPersonajes();
+  const listado = document.querySelector("#listado-personajes");
+  let textoInput = "";
+  const inputFiltrar = document.getElementById("filtrar");
+  if (inputFiltrar && inputFiltrar instanceof HTMLInputElement) {
+    textoInput = inputFiltrar.value;
+  }
+
+  for (const personaje of personajes) {
+    if (personaje.nombre.toLowerCase().includes(textoInput)) {
+      if (listado && listado instanceof HTMLDivElement) {
+        const contenedorPersonaje = crearContenedorPersonaje(personaje);
+        listado.appendChild(contenedorPersonaje);
+        console.log(personaje);
+        break;
+      }
+    } else {
+      console.log("No encontrado");
+    }
+  }
+};
+
+const botonFiltrar = document.querySelector(".filtrar");
+
+if (botonFiltrar && botonFiltrar instanceof HTMLButtonElement) {
+  botonFiltrar.addEventListener("click", filtrarPersonajes);
+}
